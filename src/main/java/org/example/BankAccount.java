@@ -1,13 +1,29 @@
 package org.example;
+import java.util.Scanner;
 
 public class BankAccount {
     private double balance;
     private String accountHolderName;
+    private int accountNumber;
+    private static int nextAccountNumber = 1000;
 
-    // Constructor to initialize account holder's name and balance
+    // Constructor to initialize account holder's name, balance, and account number
     public BankAccount(String accountHolderName, double balance) {
         this.accountHolderName = accountHolderName;
         this.balance = balance;
+        this.accountNumber = nextAccountNumber++;
+    }
+
+    // No-parameter constructor for user input
+    public BankAccount() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("What is the name for the account? ");
+        this.accountHolderName = scanner.nextLine();
+
+        System.out.print("What is the beginning balance for the account? ");
+        this.balance = Double.parseDouble(scanner.nextLine());
+
+        this.accountNumber = nextAccountNumber++;
     }
 
     // Method to deposit money into the account
@@ -24,12 +40,34 @@ public class BankAccount {
         }
     }
 
+    // Method to transfer money to another account
+    public void transfer(BankAccount toAccount, double amount) {
+        if (amount > 0 && amount <= balance) {
+            this.balance -= amount;
+            toAccount.deposit(amount);
+        }
+    }
+
+    // Method to get the account balance
+    public double getBalance() {
+        return balance;
+    }
+
     // Method to print the account details
     public void printAccountDetails() {
-        System.out.println("My Account balance: " + balance);
+        System.out.println("Account Number: " + accountNumber);
+        System.out.println("Account Holder: " + accountHolderName);
+        System.out.println("Account Balance: " + balance);
     }
-    // Method to print the account details
-    public void printAccountDetails2() {
-        System.out.println(accountHolderName + "'s account balance: " + balance);
+
+    // Getter for account number
+    public int getAccountNumber() {
+        return accountNumber;
+    }
+
+    // Getter for account holder name
+    public String getAccountHolderName() {
+        return accountHolderName;
     }
 }
+
